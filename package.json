@@ -1,0 +1,116 @@
+{
+  "name": "my-first-extension",
+  "displayName": "my-first-extension",
+  "description": "My first VS Code extension",
+  "publisher": "student",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vishka-vinka/labwork3_isrpo.git"
+  },
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.140.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:Notes.addNotes"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "Notes.addGlobalNote",
+        "title": "Добавить общую заметку",
+        "icon": "$(add)"
+      },
+      {
+        "command": "Notes.deleteNote",
+        "title": "Удалить заметку",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "Notes.addCodeNote",
+        "title": "Создать заметку для этого кода"
+      },
+      {
+        "command": "Notes.exportNotes",
+        "title": "Экспорт заметок в JSON",
+        "icon": "$(export)"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "Notes.addCodeNote",
+          "group": "navigation"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "Notes.exportNotes",
+          "when": "view == notesView",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "Notes.deleteNote",
+          "when": "view == notesView",
+          "group": "inline"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "notes-sidebar",
+          "title": "Мои заметки",
+          "icon": "$(notebook)"
+        }
+      ]
+    },
+    "views": {
+      "notes-sidebar": [
+        {
+          "id": "notesView",
+          "name": "Список заметок",
+          "icon": "$(list-unordered)"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "24.x",
+    "@types/vscode": "^1.140.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.0.0",
+    "@vscode/vsce": "^4.1.0",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.5.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1"
+  },
+  "overrides": {
+    "diff": "^8.0.4",
+    "serialize-javascript": "^7.0.6"
+  }
+}
